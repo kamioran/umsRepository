@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li th:if="${user.getAuthority().equals('2')}"><a href="/insert">[書籍登録]</a></li>
+						<li><a href="/list">[書籍一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>書籍詳細情報</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+
+			<table align="center"  th:object="${user}">
+				<tbody th:if="${user.getAuthority().equals('2')}">
+					<tr>
+						<td>
+							<form action="/update" method="GET" th:object="${book}">
+								<input type="hidden" name="isbn" th:value="${book.isbn}">
+								<input type="submit" value="変更">
+							</form>
+						</td>
+						<td>
+							<form action="/delete" method="GET" th:object="${book}">
+								<input type="hidden" name="isbn" th:value="${book.isbn}">
+								<input type="submit" value="削除">
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="detail-table" align="center" th:object="${book}">
+				<tr>
+					<th>ISBN</th>
+					<td th:text="${book.isbn}"></td>
+				</tr>
+				<tr>
+					<th>TITLE</th>
+					<td th:text="${book.title}"></td>
+				</tr>
+				<tr>
+					<th>価格</th>
+					<td th:text="'\ ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

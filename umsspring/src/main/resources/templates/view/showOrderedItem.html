@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>購入状況</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- 書籍情報リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ユーザー</th>
+						<th>TITLE</th>
+						<th>数量</th>
+						<th>注文日</th>
+					</tr>
+				</thead>
+				<tbody th:if="${orderedList != null}">
+					<tr th:each="order : ${orderedList}" th:object="${order}">
+						<td th:text="*{userid}"></td>
+						<td th:text="*{book.title}"></td>
+						<td th:text="*{quantity}"></td>
+						<td th:text="*{#dates.format(date, 'yyyy/MM/dd HH:mm:ss')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

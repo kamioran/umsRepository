@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/insert">[書籍登録]</a></li>
+						<li><a href="/list">[書籍一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>書籍変更</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+
+			<!-- 変更前情報 -->
+			<form action="/update" method="POST" th:object="${book}">
+				<table class="update-table" align="center">
+
+					<tr>
+						<td></td>
+						<td>≪変更前情報≫</td>
+						<td>≪変更後情報≫</td>
+					</tr>
+					<tr>
+						<th>ISBN</th>
+						<td style="background-color:#E0FFFF" th:text="${old_book.isbn}"></td>
+						<td style="background-color:#E0FFFF" th:text="${old_book.isbn}"></td>
+					</tr>
+					<tr>
+						<th>TITLE</th>
+						<td style="background-color:#E0FFFF" th:text="${old_book.title}"></td>
+						<td>
+							<input type="text" name="title" th:value="*{title}">
+							<!-- エラーメッセージの表示 -->
+							<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-msg"></p>
+						</td>
+					</tr>
+					<tr>
+						<th>価格</th>
+						<td style="background-color:#E0FFFF" th:text="${old_book.price}"></td>
+						<td>
+							<input type="text" name="price" th:value="*{price}">
+							<!-- エラーメッセージの表示 -->
+							<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-msg"></p>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="isbn" th:value="${old_book.isbn}">
+				<input type="submit" value="変更完了">
+			</form>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

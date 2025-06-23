@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="user-container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul class="user-ul">
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/insertUser">[ユーザー登録]</a></li>
+						<li><a href="/listUser">[ユーザー一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>ユーザー変更</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+
+			<!-- 変更フォーム -->
+			<form action="/updateUser" method="POST" th:object="${checkUser}">
+				<table class="user-update-table" align="center">
+					<tr>
+						<td></td>
+						<td>≪変更前情報≫</td>
+						<td>≪変更後情報≫</td>
+					</tr>
+					<tr>
+						<th>ユーザー</th>
+						<td style="background-color:#E0FFFF" th:text="${old_user.userid}"></td>
+						<td style="background-color:#E0FFFF" th:text="${old_user.userid}"></td>
+						
+					</tr>
+					<tr>
+						<th>パスワード</th>
+						<td style="background-color:#E0FFFF" th:text="${old_user.password}"></td>
+						<td>
+							<input type="password" name="newPassword" th:value="*{newPassword}">
+							<!-- エラーメッセージの表示 -->
+							<p style="color:red" th:if="${passwordError}" th:text="${passwordError}"></p>
+					</tr>
+					<tr>
+						<th>パスワード（確認用）</th>
+						<td></td>
+						<td>
+							<input type="password" name="confirmPassword" th:value="*{confirmPassword}">
+							<!-- エラーメッセージの表示 -->
+							<p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+								class="error-msg"></p>
+						</td>
+					</tr>
+					<tr>
+						<th>Eメール</th>
+						<td style="background-color:#E0FFFF" th:text="${old_user.email}"></td>
+						<td>
+							<input type="text" name="email" th:value="*{email}">
+							<!-- エラーメッセージの表示 -->
+							<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-msg"></p>
+						</td>
+					</tr>
+					<tr>
+						<th>権限</th>
+						<td style="background-color:#E0FFFF"
+							th:text="${old_user.authority.equals('2') ? '管理者' : '一般ユーザー'}"></td>
+						<td>
+							<select name="authority">
+								<option value="">選択してください</option>
+								<option value="2">管理者</option>
+								<option value="1">一般ユーザー</option>
+							</select>
+							<p th:if="${#fields.hasErrors('authority')}" th:errors="*{authority}"
+								th:errorclass="error-msg"></p>
+						</td>
+					</tr>
+				</table>
+				<input type="hidden" name="userid" th:value="${old_user.userid}">
+				<input type="hidden" name="oldPassword" th:value="${old_user.password}">
+				<input type="submit" value="変更完了">
+			</form>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

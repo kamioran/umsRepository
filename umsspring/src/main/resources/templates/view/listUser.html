@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap" th:object="${user}">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/insertUser">[ユーザー登録]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>ユーザー一覧</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- 検索フォーム -->
+			<form class="inline-block" action="/searchUser">
+				ユーザー<input type="text" name="userid">
+				<input type="submit" value="検索">
+			</form>
+			<form class="inline-block" action="/listUser">
+				<input type="submit" value="全件表示">
+			</form>
+
+			<!-- 書籍情報リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ユーザー</th>
+						<th  class="email">Eメール</th>
+						<th>権限</th>
+						<th>変更/削除</th>
+					</tr>
+				</thead>
+				<tbody th:if="${user_list.size() >= 1}">
+					<tr th:each="user:${user_list}" th:object="${user}">
+						<td><a th:href="@{/detailUser(userid=${user.userid})}" th:text="${user.userid}"></a></td>
+						<td th:text="${user.email}"></td>
+						<td th:text="${user.authority.equals('2') ? '管理者' : '一般ユーザー'}"></td>
+						<td>
+							<a th:href="@{/updateUser(userid=${user.userid})}">変更</a>
+							<a th:href="@{/deleteUser(userid=${user.userid})}">削除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

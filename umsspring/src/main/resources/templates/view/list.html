@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap" th:object="${user}">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li th:if="${user.getAuthority().equals('1')}"><a href="/showCart">[カート状況]</a></li>
+						<li th:if="${user.getAuthority().equals('2')}"><a href="/insert">[書籍登録]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>書籍一覧</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+
+			<!-- 検索フォーム -->
+			<form class="inline-block" action="/search">
+				ISBN<input type="text" name="isbn">
+				TITLE<input type="text" name="title">
+				価格<input type="text" name="price">
+				<input type="submit" value="検索">
+			</form>
+			<form class="inline-block" action="/list">
+				<input type="submit" value="全件表示">
+			</form>
+
+			<!-- 書籍情報リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ISBN</th>
+						<th>TITLE</th>
+						<th>価格</th>
+						<th th:if="${user.getAuthority().equals('1')}">購入数</th>
+						<th th:if="${user.getAuthority().equals('2')}">変更/削除</th>
+					</tr>
+				</thead>
+				<tbody th:if="${book_list.size() >= 1}">
+					<tr th:each="book:${book_list}" th:object="${book}">
+						<td><a th:href="@{/detail(isbn=${book.isbn})}" th:text="${book.isbn}"></a></td>
+						<td th:text="${book.title}"></td>
+						<td th:text="'\ ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+						<td>
+							<form style="padding-top: 5px;" th:if="${user.getAuthority().equals('1')}" action="/insertIntoCart">
+								<input style="width: 30px; height: 21px;" type="text" name="quantity">
+								<input type="hidden" name="isbn" th:value="${book.isbn}">
+								<input type="submit" value="カートに入れる">
+							</form>
+							<a th:if="${user.getAuthority().equals('2')}" th:href="@{/update(isbn=${book.isbn})}">変更</a>
+							<a th:if="${user.getAuthority().equals('2')}" th:href="@{/delete(isbn=${book.isbn})}">削除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

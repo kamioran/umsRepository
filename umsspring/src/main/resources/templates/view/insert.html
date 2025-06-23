@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/list">[書籍一覧]</a></li>
+					</ul>
+				</div>
+				
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>書籍登録</h2>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+			<!-- 入力フォーム -->
+			<form action="/insert" method="POST" th:object="${book}">
+				<table class="input-table" align="center">
+					<tr>
+						<th>ISBN</th>
+						<td>
+							<input type="text" name="isbn" th:value="*{isbn}">
+							<p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" th:errorclass="error-msg"></p>
+						</td>
+					</tr>
+					<tr>
+						<th>TITLE</th>
+						<td>
+							<input type="text" name="title" th:value="*{title}">
+							<p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" th:errorclass="error-msg"></p>
+						</td>
+					</tr>
+					<tr>
+						<th>価格</th>
+						<td>
+							<input type="text" name="price" th:value="*{price}">
+							<p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass="error-msg"></p>
+						</td>
+					</tr>
+				</table>
+				<input type="submit" value="登録">
+			</form>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

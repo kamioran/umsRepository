@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="user-container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul class="user-ul">
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/insertUser">[ユーザー登録]</a></li>
+						<li><a href="/listUser">[ユーザー一覧]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>ユーザー詳細情報</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+
+			<table align="center" th:object="${user}">
+				<tr>
+					<td>
+						<form action="/updateUser" method="GET">
+							<input type="hidden" name="userid" th:value="${user.userid}">
+							<input type="submit" value="変更">
+						</form>
+					</td>
+					<td>
+						<form action="/deleteUser" method="GET">
+							<input type="hidden" name="userid" th:value="${user.userid}">
+							<input type="submit" value="削除">
+						</form>
+					</td>
+				</tr>
+			</table>
+
+			<table class="user-table" align="center" th:object="${user}">
+				<tr>
+					<th>ユーザー</th>
+					<td th:text="${user.userid}"></td>
+				</tr>
+				<tr>
+					<th>パスワード</th>
+					<td th:text="${user.password}"></td>
+				</tr>
+				<tr>
+					<th>Eメール</th>
+					<td th:text="${user.email}"></td>
+				</tr>
+				<tr>
+					<th>権限</th>
+					<td th:text="${user.authority.equals('2') ? '管理者' : '一般ユーザー'}"></td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

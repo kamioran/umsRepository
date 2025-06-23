@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap" th:object="${user}">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+					</ul>
+				</div>
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2 th:text="${(year != null and !year.equals('') and month != null and !month.equals('')) ? year + '年' + month + '月の売り上げ状況'
+								: (year != null and !year.equals('')) ? year + '年の売り上げ状況'
+								: (month != null and !month.equals('')) ? month + '月の売り上げ状況'
+								: '売り上げ状況'}"></h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${year} == null" th:text="年月を入力してください。"></p>
+			<!-- 検索フォーム -->
+			<form class="inline-block" method="POST" action="/showSalesByMonth">
+				年<input type="text" name="year">
+				月<input type="text" name="month">
+				<input type="submit" value="検索">
+			</form>
+
+			<!-- 書籍情報リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ISBN</th>
+						<th>TITLE</th>
+						<th>価格</th>
+						<th>数量</th>
+						<th>売上げ小計</th>
+					</tr>
+				</thead>
+				<tbody th:if="${sales_list != null}">
+					<tr th:each="sales, iterStat : ${sales_list}" th:object="${sales}">
+						<td th:text="*{isbn}"></a></td>
+						<td th:text="*{title}"></td>
+						<td th:text="'\ ' + *{#numbers.formatInteger(price, 3, 'COMMA')}"></td>
+						<td th:text="*{quantity}"></td>
+						<td th:text="'\ ' + ${#numbers.formatInteger(subtotal_list[iterStat.index], 3, 'COMMA')}"></td>
+					</tr>
+				</tbody>
+			</table>
+			<table aline="center">
+				<tr>
+					<td align="center" width="200">&nbsp;</td>
+					<td align="center" width="200">&nbsp;</td>
+					<th>合計</th>
+					<td align="center" width="200"><span th:text="'\ ' + ${(total != null and total != 0) ? #numbers.formatInteger(total, 3, 'COMMA') : 0}"></span></td>
+					<td align="center" width="200">&nbsp;</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

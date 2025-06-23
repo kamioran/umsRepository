@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+					<div id="nav">
+						<ul>
+							<li><a href="/menu">[メニュー]</a></li>
+							<li><a href="/list">[書籍一覧]</a></li>
+						</ul>
+					</div>
+					
+					<!-- ページタイトル -->
+					<div id="page_title">
+						<h2>カート内容</h2>
+					</div>
+			</div>
+		</div>
+		
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+			
+			<!-- 書籍情報リスト -->
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ISBN</th>
+						<th>TITLE</th>
+						<th>価格</th>
+						<th>購入数</th>
+						<th>削除</th>
+					</tr>
+				</thead>
+				<tbody th:if="${orderList != null}">
+					<tr th:each="order : ${orderList}" th:object="${order}">
+						<td><a th:href="@{/detail(isbn=*{isbn})}" th:text="*{isbn}"></a></td>
+						<td th:text="*{book.title}"></td>
+						<td th:text="'\ ' +*{#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+						<td th:text="*{quantity} + '冊'"></td>
+						<td>
+							<a th:href="@{/showCart(delno=*{isbn})}">削除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<hr align="center" size="2" color="black" width="850"></hr>
+			
+			<table aline="center">
+			<tr>
+				<td align="center" width="200">&nbsp;</td>
+				<td align="center" width="200">&nbsp;</td>
+				<th>合計</th>
+				<td align="center" width="200"><span th:text="'\ ' + ${total != 0 ? #numbers.formatInteger(total, 3, 'COMMA') : 0}"></span></td>
+				<td align="center" width="200">&nbsp;</td>
+			</tr>
+			</table>
+			<form action="/buyConfirm" method="GET">
+				<input type="submit" value="購入">
+			</form>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

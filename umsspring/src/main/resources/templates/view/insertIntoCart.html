@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+				<div id="nav">
+					<ul>
+						<li><a href="/menu">[メニュー]</a></li>
+						<li><a href="/list">[書籍一覧]</a></li>
+					</ul>
+				</div>
+				
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>カート追加</h2>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+			<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+				
+			<form action="/showCart" method="GET" th:object="${order}">
+				<table class="input-table" align="center">
+					<tr>
+						<th>ISBN</th>
+						<td th:text="*{isbn}"></td>
+					</tr>
+					<tr>
+						<th>TITLE</th>
+						<td th:text="*{book.title}"></td>
+					</tr>
+					<tr>
+						<th>価格</th>
+						<td th:text="'\ ' +*{#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+					</tr>
+					<tr>
+						<th>購入数</th>
+						<td th:text="*{quantity} + '冊'"></td>
+					</tr>
+				</table>
+				<input type="submit" value="カート確認">
+			</form>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

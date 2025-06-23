@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>書籍登録</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>ログイン</h2>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 書籍登録コンテンツ部分 -->
+		<div id="main" class="container">
+		
+		<!-- エラーメッセージ -->
+			<p class="error-msg" th:if="${message} != null" th:text="${message}"></p>
+
+			<!-- 入力フォーム -->
+			<form action="/login" method="POST">
+				<table class="input-table" align="center">
+					<tr>
+						<th>ユーザー</th>
+						<td>
+							<input type="text" name="user" th:value="${strUser}">
+						</td>
+					</tr>
+					<tr>
+						<th>PASSWORD</th>
+						<td>
+							<input type="password" name="password" th:value="${strPassword}">
+						</td>
+					</tr>
+				</table>
+				<input type="submit" value="ログイン">
+			</form>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

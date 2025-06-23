@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>MENU</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+
+		<!-- user情報表示 -->
+		<table th:object="${user}">
+			<tr>
+				<td align="center" width="1000">&nbsp;</td>
+				<td>名前：</td>
+				<td th:text="${user.userid}"></td>
+			</tr>
+			<tr>
+				<td align="center" width="800">&nbsp;</td>
+				<td>権限：</td>
+				<td th:text="${user.authority.equals('2') ? '管理者' : '一般ユーザー'}"></td>
+			</tr>
+		</table>
+		<hr align="center" size="2" color="black">
+
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+
+				<!-- ページタイトル -->
+				<div id="page_title">
+					<h2>MENU</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- メニュー表示部分 -->
+		<div id="main" class="container">
+			<table class="input-table" align="center">
+				<tbody th:if="${user.authority.equals('1')}">
+					<tr>
+						<td><a href="/list">[書籍一覧]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/showCart">[カート状況確認]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/showHistoryOrderedItem">[購入履歴]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/changePassword">[パスワード変更]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/logout">[ログアウト]</a></td>
+					</tr>
+				</tbody>
+				
+				<tbody th:if="${user.authority.equals('2')}">
+					<tr>
+						<td><a href="/list">[書籍一覧]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/insert">[書籍登録]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/insertIniData">[初期データ登録(データがない場合のみ)]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/showOrderedItem">[購入状況確認]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/showSalesByMonth">[売り上げ状況]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/insertUser">[ユーザー登録]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/listUser">[ユーザー一覧]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/changePassword">[パスワード変更]</a></td>
+					</tr>
+					<tr>
+						<td><a href="/logout">[ログアウト]</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+				<!-- ナビゲーション -->
+					<div id="nav">
+						<ul>
+							<li><a href="/menu">[メニュー]</a></li>
+						</ul>
+					</div>
+					
+					<!-- ページタイトル -->
+					<div id="page_title">
+						<h2>初期データ登録</h2>
+					</div>
+			</div>
+		</div>
+		
+		<!-- 書籍一覧のコンテンツ部分 -->
+		<div id="main" class="container">
+			
+			<!-- 書籍情報リスト -->
+			<table>
+				<tr>
+					<td style=text-align:left;>初期データとして以下のデータを登録しました。</td>
+				</tr>
+			</table>
+			<table class="list-table">
+				<thead>
+					<tr>
+						<th>ISBN</th>
+						<th>TITLE</th>
+						<th>価格</th>
+					</tr>
+				</thead>
+				<tbody th:if="${book_list.size() >= 1}">
+					<tr th:each="book:${book_list}" th:object="${book}">
+						<td th:text="${book.isbn}"></td>
+						<td th:text="${book.title}"></td>
+						<td th:text="'\ ' +${#numbers.formatInteger(book.price, 3, 'COMMA')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MENU</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+	<!-- ブラウザ全体 -->
+	<div id="wrap">
+	
+		<!-- ヘッダー部分 -->
+		<div th:insert="~{/common/header :: frag}"></div>
+		
+		<!-- メニュー部分 -->
+		<div id="menu">
+			<div class="container">
+			</div>
+		</div>
+		
+		<!-- メニュー表示部分 -->
+		<div id="main" class="container">
+			<h2>●●エラー●●</h2>
+			<table align="center">
+				<tr>
+				 	<td  th:text="${errorMessage}"></td>
+				 </tr>
+			</table>
+			<table>
+				<tr>
+					<p><a th:text="${next}" th:href="@{/{cmd}(cmd=${cmd})}"></a></p>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- フッター部分 -->
+		<div th:insert="~{/common/footer :: frag}"></div>
+		
+	</div>
+</body>
+</html>
